@@ -1,0 +1,80 @@
+/*
+    Name: Andrew Loop-Perez
+    ID: 006198799
+    Course: CSE 4050
+    Assignment: CSS
+    Term: Fall 2020
+    Filename: stylesheet.css
+*/
+
+h2 {
+    text-align: center;
+}
+
+ul {
+    list-style: square;
+}
+
+li {
+    font-weight: bold;
+}
+
+li.completed {
+    color: green;
+}
+
+li.incomplete {
+    color: red;
+}
+
+table {
+    width: 40%;
+    color: #333;
+    border-collapse: collapse;
+    border-spacing: 0px;
+}
+
+th, td {
+    border: 1px solid transparent;
+}
+
+th {
+    background: gray;
+    font-weight: bold;
+    color: white;
+}
+
+td {
+    background: whitesmoke;
+    text-align: center;
+}
+
+tr:hover  td {
+    background: yellow;
+}
+
+#button_div {
+    display: flex;
+}
+
+#btn {
+    width: 200px;
+    height: 30px;
+    margin-top: 12px;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+#intro {
+    border: 1px solid black;
+}
+
+#side {
+    border: 1px solid black;
+    float: right;
+    margin-right: 20%;
+}
+
+#box_text {
+    margin: 20px;
+}
