@@ -1,1 +1,3 @@
-File for demonstrating understanding of CSS. Used in conjunction with previous HTML file. 
+# CSS Assignment
+File for demonstrating understanding of CSS.
+Used with: ../html/index.html
