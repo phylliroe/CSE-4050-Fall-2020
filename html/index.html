@@ -13,6 +13,8 @@
         <title>CSE 4050</title>
 
         <link rel="stylesheet" type="text/css" href="../css/stylesheet.css" />
+
+        <script type="text/javascript" src="../js/script.js"></script>
     </head>
     <body>
         <h2 class="title">CSE 4050 - HTML Page</h2>
@@ -42,7 +44,7 @@
             <br><br>
 
             <div id="side">
-                <p id="box_text">Something Goes Here</p>
+                <p id="box_text"></p>
             </div>
     
             <p>The assignments for this class look like this: </p>
@@ -99,7 +101,7 @@
         <br><br>
        
         <div id="button_div">
-            <p>This is a button. It does not do anything (yet): </p><button id="btn">CLick Me</button>
+            <p>This is a button. It does not do anything (yet): </p><button id="btn" onclick="button_click()">CLick Me</button>
         </div>
         <div id="button_result_div"></div>
     </body>
