@@ -58,6 +58,8 @@ tr:hover  td {
 }
 
 #btn {
+    display: inline-block;
+    background: burlywood;
     width: 200px;
     height: 30px;
     margin-top: 12px;
