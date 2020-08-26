@@ -23,7 +23,7 @@
             <p>The purpose of this page is to demonstrate an understanding of basic HTML and CSS.</p>
             <p>This page is nothing fancy right now. Just some basic HTML tags like <b>bold</b>, <i>itallic</i>, and <u>underline</u>.
                 There is also a list, a table, and a button.
-                This page has some simple CSS style applied to it.</p>
+                This page has some simple CSS styles applied to it.</p>
         </div>
     
         <br>
@@ -32,7 +32,7 @@
             <p>Some things that will be added to this page:</p>
             <ul id="my_list">
                 <li class="completed">CSS styling &#10003;</li>
-                <li class="incomplete">JavaScript</li>
+                <li class="completed">JavaScript &#10003;</li>
                 <li class="incomplete">JSON</li>
             </ul>
         </div>
@@ -45,6 +45,14 @@
 
             <div id="side">
                 <p id="box_text"></p>
+                
+                <div id="calc">
+                    <label>Enter Value 1:</label><input type="number" id="val_a" autocomplete="off">
+                    <br>
+                    <label>Enter Value 2:</label><input type="number" id="val_b" autocomplete="off">
+                    <button id="num_btn" onclick="add_input();">Submit</button><br><br>
+                    <label>Result: </label><textarea id="add_result" rows="1" cols="5" autocomplete="off"></textarea>
+                </div>
             </div>
     
             <p>The assignments for this class look like this: </p>
@@ -101,7 +109,7 @@
         <br><br>
        
         <div id="button_div">
-            <p>This is a button. It does not do anything (yet): </p><button id="btn" onclick="button_click()">CLick Me</button>
+            <p>This is a button: </p><button id="btn" onclick="button_click()">CLick Me</button>
         </div>
         <div id="button_result_div"></div>
     </body>
