@@ -13,8 +13,17 @@ var clicks = 0;
 // When the window loads, print a message to the web console
 // and call the clock() function
 window.onload = function() {
+    // Print to the console
     console.log("Printing to the console!");
     
+    // Add the elements in an array to the webpage
+    let my_array = ["This", "is", "an", "array"];
+    let array_div =document.getElementById("array_div");
+    
+    for (const x in my_array) {
+        array_div.innerHTML += "<p>" + my_array[x] + "</p>";
+    }
+
     // Call clock() function 
     clock();
     
@@ -23,23 +32,27 @@ window.onload = function() {
 }
 
 // Count the number of times the button is clicked
+// Disable the button after a certain number of clicks
 function button_click() {
-    let button_results = document.getElementById("button_result_div");
-    button_results.innerHTML = "<p>" + clicks + " button clicks</p>"
-    
+    // Maxmimum number of clicks allowed
+    const max_clicks = 10;
+
     // Increment click count by 1
     clicks++;
 
-    // Disable the button after a certain number of clicks
-    const max_clicks = 15;
-    
-    if (clicks > max_clicks) {
-        alert("You're clicking too much! I'm turning turning the button off!");
-        let the_button = document.getElementById("btn");
+    // Update the HTML
+    let button_results = document.getElementById("button_result_div");
+    button_results.innerHTML = "<p>" + clicks + " button clicks</p>"
 
+    // Disable the button after a certain number of clicks    
+    if (clicks === max_clicks) {
+        alert("You're clicking too much! I'm turning turning the button off!");
+        
+        let the_button = document.getElementById("btn");
         the_button.innerHTML = "DISABLED";
         the_button.disabled = true;
     }
+
 }
 
 // Add the values in the input boxes and display them in the "Results" text area
@@ -54,14 +67,16 @@ function add_input() {
     document.getElementById("add_result").value = result;
 }
 
-// Create a real time clock and display it on the page
+// Create a clock and display it on the page
+// Get the current time and display it on the page
+// Run this function every second to create a real time clock
 function clock() {
     // div element where clock is placed
     let time_div = document.getElementById("box_text");
     
-    // Get time
+    // Get time using a date object
     let time = new Date().toLocaleTimeString();
     
-    // Set element text
+    // Display the clock on the HTML
     time_div.innerHTML = time;
 }
