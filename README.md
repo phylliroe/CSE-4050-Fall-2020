@@ -5,3 +5,4 @@ Assignments:
 1. Create repository
 2. Create HTML file
 3. Create CSS file
+4. Create JavaScript file
