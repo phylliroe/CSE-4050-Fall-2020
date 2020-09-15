@@ -6,7 +6,9 @@
     <title>Document</title>
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/7.20.-/firebase-auth.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/7.20.-/firebase-firestore.js"></script>
 
     <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
@@ -29,7 +31,11 @@
     firebase.initializeApp(firebaseConfig);
     firebase.analytics();
     </script>
+
+    <script src="app.js" defer></script>
 </head>
-<body>    
+<body> 
+    <h1>Hello!</h1>
+    <p>Testing 1..2...3</p>   
 </body>
 </html>
