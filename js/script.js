@@ -10,16 +10,6 @@
 // Counts the number of times the button is clicked
 var clicks = 0;
 
-var j = {"first":"Andy", "last":"Loop", "next":6};
-var jar = [{"one":1, "two":2}, {"three":3}, {"four":4, "five":5}];
-var j2 = JSON.stringify(j);
-var jstring = '{ "employees" : [' +
-'{ "firstName":"John" , "lastName":"Doe" },' +
-'{ "firstName":"Anna" , "lastName":"Smith" },' +
-'{ "firstName":"Peter" , "lastName":"Jones" } ]}'; 
-
-var jr = JSON.parse(jstring);
-
 // When the window loads, print a message to the web console
 // and call the clock() function
 window.onload = function() {
