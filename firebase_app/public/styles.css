@@ -1,0 +1,18 @@
+h1 {
+    color: blueviolet;
+}
+
+.list_item {
+    display: inline-block;
+}
+
+.sub_btn {
+    display: inline-block;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+#add_btn {
+    background-color: blue;
+    cursor: pointer;
+}
