@@ -6,6 +6,7 @@
     <title>CSE 4050 Web App</title>
 
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
@@ -36,11 +37,18 @@
     <script src="app.js" defer></script>
 </head>
 <body> 
-    <h1>Hello!</h1>
-    <p>Testing 1..2..3</p>
-    
     <input type="text" id="item_text" name="item_text" autocomplete="off">
-    <button id="add_btn" onclick="button_click();">CLICK</button>
+    <button id="add_btn" onclick="button_click();">ENTER</button>
+
+    <script>
+        let input = document.getElementById("item_text");
+        input.addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+                document.getElementById("add_btn").click();
+            }
+        });
+    </script>
+
     <div id="list"></div>
 </body>
 </html>

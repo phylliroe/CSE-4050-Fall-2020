@@ -4,19 +4,19 @@ h1 {
 
 div.list_item {
     display: inline-block;
+    /*border-style: solid;*/
 }
 
 p.item_name {
     display: inline-block;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+button {
+    cursor: pointer;
 }
 
 .sub_btn {
     display: inline-block;
-    background: #4CAF50;
-    cursor: pointer;
-}
-
-#add_btn {
-    background-color: blue;
-    cursor: pointer;
 }
