@@ -9,12 +9,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-app.js"></script>
 
     <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
     <!-- <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-analytics.js"></script> -->
-    
+    <script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-auth.js"></script>
 
     <script>
     // Your web app's Firebase configuration
@@ -38,7 +38,12 @@
 </head>
 <body> 
     <input type="text" id="item_text" name="item_text" autocomplete="off">
-    <button id="add_btn" onclick="button_click();">ENTER</button>
+    <button id="add_btn" onclick="button_click();">ADD TASK</button>
+    <button id="sign_in" onclick="google_auth();">Sign in with Google</button>
+
+    <div id="name" style="visibility: hidden;">
+
+    </div>
 
     <script>
         let input = document.getElementById("item_text");
