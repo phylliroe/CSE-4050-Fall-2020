@@ -46,8 +46,9 @@
     </div>
 
     <script>
-        let input = document.getElementById("item_text");
-        input.addEventListener("keyup", function(event) {
+        // Call button click function if ENTER key is pressed
+        let textbox = document.getElementById("item_text");
+        textbox.addEventListener("keyup", function(event) {
             if (event.keyCode === 13) {
                 document.getElementById("add_btn").click();
             }

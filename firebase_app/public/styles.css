@@ -1,7 +1,3 @@
-h1 {
-    color: blueviolet;
-}
-
 div.list_item {
     display: block ruby;
     border: 1px solid black;
@@ -16,9 +12,11 @@ button {
     cursor: pointer;
 }
 
+/*
 button.del_btn {
     
 }
 
 button.sub_btn {
 }
+*/
