@@ -16,6 +16,7 @@
      https://firebase.google.com/docs/web/setup#available-libraries -->
     <!-- <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-analytics.js"></script> -->
     <script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-firestore.js"></script>
 
     <script>
     // Your web app's Firebase configuration
@@ -39,12 +40,12 @@
 </head>
 <body> 
     <input type="text" id="item_text" name="item_text" autocomplete="off">
-    <button id="add_btn" onclick="button_click();">ADD TASK</button>
+    <button id="add_btn">ADD TASK</button>
     <button id="sign_in" onclick="google_auth();">Sign in with Google</button>
 
-    <div id="name" style="visibility: hidden;">
-
-    </div>
+    <section id="user" hidden="true">
+        <div id="user_name"></div>
+    </section>
 
     <script>
         // Call button click function if ENTER key is pressed
