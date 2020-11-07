@@ -41,6 +41,7 @@ auth.onAuthStateChanged(user => {
             .then((docSnapshot) => {
                 if (docSnapshot.exists) {
                     console.log("User doc exists!");
+                    console.log(docSnapshot.data()["name"]);
                 } 
                 else {
                     console.log("doc does not exists");
@@ -79,11 +80,23 @@ auth.onAuthStateChanged(user => {
         
             let d = document.getElementById(newest);
             console.log(d.textContent);
+        
+            let dat = {};
+            dat[newest] = d.textContent;
+            console.log(dat);
+
+            user_doc.update(dat);
 
             //let children = document.getElementById("list").getElementsByTagName("div");
             //console.log(children.length);
 
             //get_items();
+        
+
+            user_doc.get()
+            .then((docSnapshot) => {
+                console.log(docSnapshot.data());
+            });
         }
     }
     else {
