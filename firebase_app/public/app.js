@@ -1,4 +1,3 @@
-//console.log("test");
 console.log("The script is working!");
 
 // Counter variable used for assigning list item and button IDs
@@ -75,6 +74,7 @@ function google_auth() {
     auth.signInWithPopup(provider);
 }
 
+// Load user items from Cloud Firestore
 function load_items(data) {
     console.log("loading...");
 
@@ -82,22 +82,18 @@ function load_items(data) {
 
     for (let i = 1; i <= len; i++) {
         let item_name = "item" + i;
-        button_click(data[item_name], data[item_name]);
+        button_click(data[item_name]);
     }
 }
 
 // Add a new list item when the button is clicked (or the ENTER key is pressed)
-function button_click(text_box_val, input = document.getElementById("item_text").value) {
-    //let input = document.getElementById("item_text").value;
-    
+function button_click(text_box_val) {
     // Print message if input is blank or only consists of white space
-    if (!input || !input.trim().length) {
+    if (!text_box_val || !text_box_val.trim().length) {
         alert("No input");
     }
     else {
         let list = document.getElementById("list");        
-        
-        //let text_box_val = document.getElementById("item_text").value;
         
         // Create new elements 
         let new_div = document.createElement("div");
@@ -108,8 +104,6 @@ function button_click(text_box_val, input = document.getElementById("item_text")
 
         // Append new list item
         list.appendChild(new_div);
-        
-        //new_div.appendChild(delete_button);
 
         // Set item div ID and class
         let item_id = "item" + count;
@@ -173,7 +167,6 @@ function delete_click() {
     // If user is signed in, delete item from firestore document
     auth.onAuthStateChanged(user => {
         if (user) {
-            console.log("in");
             let user_doc = fs.collection("lists").doc(user.uid);
             let item = this.parentNode.id;
 
@@ -185,25 +178,24 @@ function delete_click() {
 
     // Delete item from list
     this.parentNode.parentNode.removeChild(this.parentNode);
-    
+    set_new_id();
     set_remaining_items();
 }
 
 // Get the current list of items and return as JSON
 function get_items() {
-    let c = document.getElementsByClassName("item_name");
+    let item_names = document.getElementsByClassName("item_name");
     let num = 1;
-    let j = {}
+    let list_json = {}
     
-    for(let i of c){
+    for(let i of item_names){
         let item_num = "item" + num;
-        j[item_num] = i.innerHTML;
+        list_json[item_num] = i.innerHTML;
         num++;
     }
 
-    count = (Object.keys(j).length + 1);
-    set_new_id();
-    return j;
+    count = (Object.keys(list_json).length + 1);
+    return list_json;
 
 }
 
@@ -221,11 +213,13 @@ function set_new_id() {
     }
 }
 
-// Write the list items to the firestore document
+// Apply changes in list to the firestore document
 function set_remaining_items() {
     auth.onAuthStateChanged(user => {
-        let user_doc = fs.collection("lists").doc(user.uid);
-        let items = get_items();
-        user_doc.set(items);
+        if(user) {
+            let user_doc = fs.collection("lists").doc(user.uid);
+            let items = get_items();
+            user_doc.set(items);
+        }
     });
 }
