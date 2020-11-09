@@ -20,7 +20,6 @@ auth.onAuthStateChanged(user => {
 
         document.getElementById("user").hidden = false;
         document.getElementById("user_name").innerHTML = "Hello " + user.displayName;
-
         document.getElementById("list").innerHTML = "";
     }
     else {
@@ -32,8 +31,6 @@ auth.onAuthStateChanged(user => {
 auth.onAuthStateChanged(user => {
     if(user) {
         const uid = user.uid;
-        console.log(uid);
-
         let user_doc = fs.collection("lists").doc(uid);
 
         // Check if document for current signed in user exists
@@ -41,7 +38,7 @@ auth.onAuthStateChanged(user => {
             .then((docSnapshot) => {
                 if (docSnapshot.exists) {
                     console.log("User doc exists!");
-                    console.log(docSnapshot.data()["name"]);
+                    load_items(docSnapshot.data());
                 } 
                 else {
                     console.log("doc does not exists");
@@ -54,54 +51,21 @@ auth.onAuthStateChanged(user => {
                     });
                 }
             });
-        /*
-        user_doc.get()
-            .then((doc) => {
-                if (doc.get("items") != null) {
-                    console.log("has items");
-                    console.log(doc.get("items")["one"]);
-
-                    if ("two" in doc.get("items")) {
-                        console.log("there's three");
-                    }
-                    else {console.log("no three");}
-
-                    let m = doc.get("items");
-                    console.log(m);
-                }
-            });
-        */
 
         add_button.onclick = () => {
             let newest = "item" + count;
-            button_click();
+            button_click(document.getElementById("item_text").value);
         
-            console.log(newest);
-        
-            let d = document.getElementById(newest);
-            console.log(d.textContent);
-        
+            let d = document.getElementById(newest);    
             let dat = {};
             dat[newest] = d.textContent;
-            console.log(dat);
 
             user_doc.update(dat);
-
-            //let children = document.getElementById("list").getElementsByTagName("div");
-            //console.log(children.length);
-
-            //get_items();
-        
-
-            user_doc.get()
-            .then((docSnapshot) => {
-                console.log(docSnapshot.data());
-            });
         }
     }
     else {
         add_button.onclick = () => {
-            button_click();
+            button_click(document.getElementById("item_text").value);
             console.log("not signed in");
         }
     }
@@ -111,31 +75,29 @@ function google_auth() {
     auth.signInWithPopup(provider);
 }
 
-function get_items() {
-    let c = document.getElementById("list").getElementsByTagName("div");
-    console.log(c.length);
+function load_items(data) {
+    console.log("loading...");
 
-    //let j = {};
-    //for (let i = 0; i < c.length; i++) {
-        //console.log(c[i].textContent);
-    //    let p = c[i].textContent
-        //let ps = c[i].getElementsByTagName("p");
-        //console.log(ps[0].textContent);
-    //    j[]
-    //}
+    let len = Object.keys(data).length;
+
+    for (let i = 1; i <= len; i++) {
+        let item_name = "item" + i;
+        button_click(data[item_name], data[item_name]);
+    }
 }
 
 // Add a new list item when the button is clicked (or the ENTER key is pressed)
-function button_click() {
-    let input = document.getElementById("item_text").value;
-  
+function button_click(text_box_val, input = document.getElementById("item_text").value) {
+    //let input = document.getElementById("item_text").value;
+    
     // Print message if input is blank or only consists of white space
     if (!input || !input.trim().length) {
         alert("No input");
     }
     else {
         let list = document.getElementById("list");        
-        let text_box_val = document.getElementById("item_text").value;
+        
+        //let text_box_val = document.getElementById("item_text").value;
         
         // Create new elements 
         let new_div = document.createElement("div");
@@ -166,11 +128,7 @@ function button_click() {
         
         count++;
     }
-
-    // Clear input box text
     clear_text();
-
-    //console.log(p.innerHTML);
 }
 
 // Clear input box
@@ -198,22 +156,76 @@ function create_delete_button(elem) {
     let delete_button = document.createElement("button");
     delete_button.classList.add("del_btn");
     delete_button.onclick = delete_click;
-
     let delete_btn_id = "delete" + count;
     delete_button.setAttribute("id", delete_btn_id);
-
     delete_button.innerHTML = '<i class="fa fa-trash"></i>';
-
     delete_button.setAttribute("title", "Delete Item");
-
     e.appendChild(delete_button);
 }
 
 // Delete item from list
 // Called on delete button click
 function delete_click() {
+    console.log(this.parentNode.id);
     // Button is a child of the item div, which is a child of the list div
     // Call the removeChild function for the list div and give it the current item div
+   
+    // If user is signed in, delete item from firestore document
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            console.log("in");
+            let user_doc = fs.collection("lists").doc(user.uid);
+            let item = this.parentNode.id;
+
+            user_doc.update({
+                [item]: firebase.firestore.FieldValue.delete()
+            });
+        }
+    });
+
+    // Delete item from list
     this.parentNode.parentNode.removeChild(this.parentNode);
+    
+    set_remaining_items();
 }
 
+// Get the current list of items and return as JSON
+function get_items() {
+    let c = document.getElementsByClassName("item_name");
+    let num = 1;
+    let j = {}
+    
+    for(let i of c){
+        let item_num = "item" + num;
+        j[item_num] = i.innerHTML;
+        num++;
+    }
+
+    count = (Object.keys(j).length + 1);
+    set_new_id();
+    return j;
+
+}
+
+// Set new id's for list items to accomidate for deleted items
+function set_new_id() {
+    let list = document.getElementById("list");
+    let items = list.getElementsByTagName("div");
+    let num = 1;
+
+    for (let i = 0; i < items.length; i++) {
+        let e = items[i];
+        let new_id = "item" + num;
+        e.id = new_id;
+        num++;
+    }
+}
+
+// Write the list items to the firestore document
+function set_remaining_items() {
+    auth.onAuthStateChanged(user => {
+        let user_doc = fs.collection("lists").doc(user.uid);
+        let items = get_items();
+        user_doc.set(items);
+    });
+}
