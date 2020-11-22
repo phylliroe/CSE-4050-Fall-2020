@@ -12,6 +12,10 @@ button {
     cursor: pointer;
 }
 
+li {
+    cursor: pointer;
+}
+
 div.sub_div {
     display: flex;
     position: relative;
