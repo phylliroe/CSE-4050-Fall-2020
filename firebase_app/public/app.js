@@ -119,7 +119,17 @@ function button_click(text_box_val) {
         // Add buttons to item div
         create_add_button(new_div.id);
         create_delete_button(new_div.id);
-        
+
+         // sub tasks
+         //let sub_div = document.createElement("div");
+         //sub_div.className = "sub_div";
+         //sub_div.innerHTML = '<ul name="child_list" class="sub_list"><li>ooo</li></ul>';
+         let sl = document.createElement("ul");
+         //sub_div.style.display = "none";
+         //new_div.appendChild(sub_div);
+        sl.style.display = "none";
+        new_div.appendChild(sl);
+
         count++;
     }
     clear_text();
@@ -136,12 +146,35 @@ function create_add_button(elem) {
     let e = document.getElementById(elem);
     let add_button = document.createElement("button");
     add_button.classList.add("sub_btn");
+    add_button.onclick = add_click;
     let add_button_id = "add" + count;
     add_button.setAttribute("id", add_button_id);
     add_button.innerHTML = '<i class="fa fa-plus"></i>';
     add_button.setAttribute("title", "Add Subtask");
     e.appendChild(add_button);
 
+}
+
+function add_click() {
+    console.log("add clicked");
+
+    //let e = this.parentNode.childNodes[3].childNodes[0];
+
+    let e = this.parentNode.childNodes[3];
+    console.log(e);
+    if (e.style.display === "none"){
+        e.style.display = "block";
+    }
+    //let child_div = document.createElement("div");
+    //child_div.className = "child_item";
+
+    let chld_text = prompt("Enter Sub Task: ");
+    let new_li = document.createElement("li");
+    new_li.appendChild(document.createTextNode(chld_text));
+    e.appendChild(new_li);
+    //child_div.innerHTML = '<p class="child_p">' + chld_text + '</p>';
+    //child_div.innerHTML = "<ul><li>a</li><li>b</li></ul>";
+    //this.parentNode.appendChild(child_div);
 }
 
 // Create delete button
