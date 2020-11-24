@@ -171,23 +171,20 @@ function add_click() {
     let chld_text = prompt("Enter Sub Task: ");
     let new_li = document.createElement("li");
     new_li.appendChild(document.createTextNode(chld_text));
-    new_li.onclick = test;
+    new_li.onclick = create_sub_task;
     e.appendChild(new_li);
     //child_div.innerHTML = '<p class="child_p">' + chld_text + '</p>';
     //child_div.innerHTML = "<ul><li>a</li><li>b</li></ul>";
     //this.parentNode.appendChild(child_div);
 }
 
-function test() {
-    console.log("eeeeeee");
+function create_sub_task() {
     let parent = this.parentNode;
     parent.removeChild(this);
 
     if (parent.getElementsByTagName("li").length == 0) {
         parent.style.display = "none";
     }
-
-    //console.log(parent.getElementsByTagName("li").length);
 }
 
 // Create delete button
