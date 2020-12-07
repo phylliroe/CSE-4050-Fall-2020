@@ -57,8 +57,10 @@ auth.onAuthStateChanged(user => {
         
             let d = document.getElementById(newest);    
             let dat = {};
-            dat[newest] = d.textContent;
-
+            let x = [];
+            x.push(d.textContent)
+    
+            dat[newest] = x;
             user_doc.update(dat);
         }
     }
@@ -82,7 +84,15 @@ function load_items(data) {
 
     for (let i = 1; i <= len; i++) {
         let item_name = "item" + i;
-        button_click(data[item_name]);
+        button_click(data[item_name][0]);
+
+        console.log(data[item_name]);
+        if (data[item_name].length > 1) {
+            //console.log(data[item_name][1]);
+            for (let j = 1; j < data[item_name].length; j++) {
+                load_sub_list_item(data[item_name][j]);
+            }
+        }
     }
 }
 
@@ -121,13 +131,11 @@ function button_click(text_box_val) {
         create_delete_button(new_div.id);
 
          // sub tasks
-         //let sub_div = document.createElement("div");
-         //sub_div.className = "sub_div";
-         //sub_div.innerHTML = '<ul name="child_list" class="sub_list"><li>ooo</li></ul>';
-         let sl = document.createElement("ul");
-         //sub_div.style.display = "none";
-         //new_div.appendChild(sub_div);
+        let sl = document.createElement("ul");
         sl.style.display = "none";
+        sl.className = "sub_list";
+        let sub_id = "sub" + count;
+        sl.setAttribute("id", sub_id);
         new_div.appendChild(sl);
 
         count++;
@@ -155,32 +163,73 @@ function create_add_button(elem) {
 
 }
 
+// Add sub item when plus button is clicked
 function add_click() {
-    console.log("add clicked");
-
-    //let e = this.parentNode.childNodes[3].childNodes[0];
-
     let e = this.parentNode.childNodes[3];
-    console.log(e);
+    let parent_id = this.parentNode.id;
+
     if (e.style.display === "none"){
         e.style.display = "block";
     }
-    //let child_div = document.createElement("div");
-    //child_div.className = "child_item";
 
     let chld_text = prompt("Enter Sub Task: ");
     let new_li = document.createElement("li");
     new_li.appendChild(document.createTextNode(chld_text));
-    new_li.onclick = create_sub_task;
+    new_li.onclick = delete_sub_task;
     e.appendChild(new_li);
-    //child_div.innerHTML = '<p class="child_p">' + chld_text + '</p>';
-    //child_div.innerHTML = "<ul><li>a</li><li>b</li></ul>";
-    //this.parentNode.appendChild(child_div);
+   
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            let user_doc = fs.collection("lists").doc(user.uid);
+            let sub_list_items = e.getElementsByTagName("li");
+            let li_items = [];
+            li_items.push(this.parentNode.childNodes[0].innerHTML);
+            
+            for (let x of sub_list_items) {
+                li_items.push(x.innerHTML);
+            }
+    
+            user_doc.update({
+               [parent_id]:li_items
+            });
+        }
+    });
+
 }
 
-function create_sub_task() {
+// Add item from Firestore to page
+function load_sub_list_item(item) {
+    let num = count - 1;
+    console.log("item " + num);
+    let id = "sub" + num;
+    let sub_list = document.getElementById(id);
+
+    let new_li = document.createElement("li");
+    new_li.appendChild(document.createTextNode(item));
+    new_li.onclick = delete_sub_task;
+    sub_list.appendChild(new_li);
+
+    if (sub_list.style.display === "none") {
+        sub_list.style.display = "block";
+    }
+
+}
+
+// Delete a sub task item
+function delete_sub_task() {
     let parent = this.parentNode;
     parent.removeChild(this);
+    
+    let main_item = parent.parentNode.getElementsByTagName("p")[0].innerHTML;
+    let remaining_sub = parent.getElementsByTagName("li");
+    let id = parent.parentNode.id;
+    let items = [];
+    
+    items.push(main_item);
+
+    for (let x of remaining_sub) {
+        items.push(x.innerHTML);
+    }
 
     if (parent.getElementsByTagName("li").length == 0) {
         parent.style.display = "none";
@@ -228,14 +277,36 @@ function delete_click() {
 // Get the current list of items and return as JSON
 function get_items() {
     let item_names = document.getElementsByClassName("item_name");
+    let sub_items = document.getElementsByClassName("sub_list");
+    //console.log(item_names);
+    //console.log(sub_items);
     let num = 1;
     let list_json = {}
+
+    let list_items = document.getElementsByClassName("list_item");
+
+    for (let i of list_items) {
+        let item_num = "item" + num;
+        let item_name = i.getElementsByTagName("p")[0].innerHTML;
+        let sub_items = i.getElementsByTagName("li");
+        let list = [];
+
+        list.push(item_name);
+        for (let j of sub_items) {
+            list.push(j.innerHTML);
+        }
+
+        list_json[item_num] = list;
+        num++
+    }
     
+    /*
     for(let i of item_names){
         let item_num = "item" + num;
         list_json[item_num] = i.innerHTML;
         num++;
     }
+    */
 
     count = (Object.keys(list_json).length + 1);
     return list_json;
